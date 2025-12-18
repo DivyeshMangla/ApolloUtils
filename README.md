@@ -1,5 +1,9 @@
 # ApolloUtils
 
-Personal CLI utility for looking up Sales / Marketing contacts for a company using the official Apollo API.
+Personal CLI utility for retrieving Sales and Marketing contacts for a company using the official Apollo API.
 
-This tool is intended **only for personal use**.
+Intended for **personal use**.
+
+## License
+
+[MIT](LICENSE)
