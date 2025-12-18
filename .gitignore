@@ -1,0 +1,45 @@
+# Binaries
+/apolloutils
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go build artifacts
+*.test
+*.out
+*.prof
+*.cover
+
+# Go workspace
+go.work
+go.work.sum
+
+# Vendor (if not committing)
+vendor/
+
+# Environment variables
+.env
+.env.*
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+cache/
+
+# API secrets / config
+config.local.*
+secrets.*
