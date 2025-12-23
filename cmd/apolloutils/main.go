@@ -46,6 +46,7 @@ func main() {
 		fmt.Println("---")
 		fmt.Println(c.Name)
 		fmt.Println(c.Title)
+		fmt.Println("Phone:", c.PhoneStatus)
 		fmt.Println(c.ApolloURL)
 	}
 }

@@ -34,11 +34,17 @@ func (a *App) FindSponsors(company string) ([]domain.Contact, error) {
 	contacts := make([]domain.Contact, 0, len(people))
 
 	for _, p := range people {
+		phoneStatus := p.HasDirectPhone
+		if phoneStatus == "Maybe: please request direct dial via people/bulk_match" {
+			phoneStatus = "Maybe"
+		}
+
 		contact := domain.Contact{
-			Name:      p.FirstName + " " + p.LastName,
-			Title:     p.Title,
-			ApolloURL: "https://app.apollo.io/#/people/" + p.ID,
-			CompanyID: org.ID,
+			Name:        p.FirstName + " " + p.LastName,
+			Title:       p.Title,
+			ApolloURL:   "https://app.apollo.io/#/people/" + p.ID,
+			CompanyID:   org.ID,
+			PhoneStatus: phoneStatus,
 		}
 
 		contacts = append(contacts, contact)
