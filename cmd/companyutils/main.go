@@ -15,30 +15,42 @@ func main() {
 
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Print("Enter company name: ")
-	companyName, err := reader.ReadString('\n')
+	fmt.Print("Enter company name(s) (comma-separated for batch): ")
+	input, err := reader.ReadString('\n')
 	if err != nil {
 		log.Fatal("Error reading input:", err)
 	}
-	companyName = strings.TrimSpace(companyName)
+	input = strings.TrimSpace(input)
 
-	if companyName == "" {
+	if input == "" {
 		log.Fatal("Company name cannot be empty")
 	}
 
 	client := apollo.New(os.Getenv("APOLLO_API_KEY"))
 
-	org, err := client.FindCompany(companyName)
-	if err != nil {
-		log.Fatal("Error searching for company:", err)
-	}
+	// Split by comma for batch processing (Microsoft,Google,Apple)
+	companies := strings.Split(input, ",")
 
-	if org == nil {
-		fmt.Printf("No company found for '%s'\n", companyName)
-		return
-	}
+	fmt.Printf("\nSearching for %d companies...\n\n", len(companies))
 
-	fmt.Printf("\nCompany found:\n")
-	fmt.Printf("Name: %s\n", org.Name)
-	fmt.Printf("Apollo URL: https://app.apollo.io/#/organizations/%s\n", org.ID)
+	for i, companyName := range companies {
+		companyName = strings.TrimSpace(companyName)
+		if companyName == "" {
+			continue
+		}
+
+		org, err := client.FindCompany(companyName)
+		if err != nil {
+			fmt.Printf("%d. %s - Error: %v\n", i+1, companyName, err)
+			continue
+		}
+
+		if org == nil {
+			fmt.Printf("%d. %s - Not found\n", i+1, companyName)
+			continue
+		}
+
+		fmt.Printf("%d. %s\n", i+1, org.Name)
+		fmt.Printf("   Apollo URL: https://app.apollo.io/#/organizations/%s\n\n", org.ID)
+	}
 }
