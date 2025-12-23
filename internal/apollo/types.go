@@ -18,12 +18,13 @@ type PeopleSearchResponse struct {
 
 // Person represents an individual contact in Apollo with their professional details.
 type Person struct {
-	ID           string        `json:"id"`
-	FirstName    string        `json:"first_name"`
-	LastName     string        `json:"last_name"`
-	Title        string        `json:"title"`
-	Email        string        `json:"email"`
-	PhoneNumbers []PhoneNumber `json:"phone_numbers"`
+	ID             string        `json:"id"`
+	FirstName      string        `json:"first_name"`
+	LastName       string        `json:"last_name"`
+	Title          string        `json:"title"`
+	Email          string        `json:"email"`
+	PhoneNumbers   []PhoneNumber `json:"phone_numbers"`
+	HasDirectPhone string        `json:"has_direct_phone"`
 }
 
 // PhoneNumber represents a contact's phone number with standardized formatting.

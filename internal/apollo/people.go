@@ -7,13 +7,20 @@ func (c *Client) FindSalesAndMarketing(orgID string) ([]Person, error) {
 		"organization_ids": []string{orgID},
 		"person_titles": []string{
 			"Marketing",
+			"Marketing Manager",
+			"Marketing Director",
+			"Marketing Head",
 			"Growth",
 			"Partnership",
+			"Partnerships",
 			"Sponsorship",
 			"Brand",
+			"Brand Manager",
 			"Business Development",
 			"BD",
 			"Sales",
+			"Sales Manager",
+			"Sales Director",
 			"Account Executive",
 			"Revenue",
 			"Strategic Partnerships",
@@ -21,11 +28,17 @@ func (c *Client) FindSalesAndMarketing(orgID string) ([]Person, error) {
 			"Creator Partnerships",
 			"Influencer Marketing",
 			"Alliances",
+			"Manager",
+			"Director",
+			"Head",
+			"VP",
+			"Vice President",
 		},
-		"has_email": true,
-		"has_phone": true,
-		"page":      1,
-		"per_page":  5,
+		"person_locations": []string{"India"},
+		"has_email":        true,
+		"has_phone":        true,
+		"page":             1,
+		"per_page":         50,
 	}
 
 	var resp PeopleSearchResponse
@@ -34,5 +47,20 @@ func (c *Client) FindSalesAndMarketing(orgID string) ([]Person, error) {
 		return nil, err
 	}
 
-	return resp.People, nil
+	// Filter to ensure contacts actually have phone numbers
+	var filteredPeople []Person
+	for _, person := range resp.People {
+		// Check if person has direct phone (Yes/Maybe are acceptable)
+		hasPhone := person.HasDirectPhone == "Yes" || person.HasDirectPhone == "Maybe: please request direct dial via people/bulk_match"
+		if hasPhone || (len(person.PhoneNumbers) > 0 && person.PhoneNumbers[0].Sanitized != "") {
+			filteredPeople = append(filteredPeople, person)
+		}
+	}
+
+	// Limit to 25 results after filtering
+	if len(filteredPeople) > 25 {
+		filteredPeople = filteredPeople[:25]
+	}
+
+	return filteredPeople, nil
 }
