@@ -38,6 +38,7 @@ func (a *App) FindSponsors(company string) ([]domain.Contact, error) {
 			Name:      p.FirstName + " " + p.LastName,
 			Title:     p.Title,
 			ApolloURL: "https://app.apollo.io/#/people/" + p.ID,
+			CompanyID: org.ID,
 		}
 
 		contacts = append(contacts, contact)

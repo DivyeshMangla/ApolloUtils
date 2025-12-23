@@ -5,4 +5,5 @@ type Contact struct {
 	Name      string
 	Title     string
 	ApolloURL string
+	CompanyID string
 }

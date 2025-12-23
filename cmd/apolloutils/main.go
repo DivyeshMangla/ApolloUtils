@@ -39,7 +39,8 @@ func main() {
 		return
 	}
 
-	fmt.Printf("\nFound %d contacts for %s:\n\n", len(contacts), companyName)
+	fmt.Printf("\nFound %d contacts for %s:\n", len(contacts), companyName)
+	fmt.Printf("Company URL: https://app.apollo.io/#/organizations/%s\n\n", contacts[0].CompanyID)
 
 	for _, c := range contacts {
 		fmt.Println("---")
